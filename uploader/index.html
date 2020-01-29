@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <title>Upload excel</title>
+    <style>
+      #drop-area {
+        border: 2px dashed #ccc;
+        border-radius: 20px;
+        width: 480px;
+        font-family: sans-serif;
+        margin: 100px auto;
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      #drop-area.highlight {
+        border-color: purple;
+      }
+      input[type="file"] {
+        display: none;
+      }
+      .input-button {
+        border: 1px solid #ccc;
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+        font-size: 15px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="drop-area">
+      <form method="post" enctype="multipart/form-data">
+        <p>Upload хийх файлаа зөөж оруулна уу</p>
+        <input type="file" name="files" id="fileinput" style="display: none;" />
+        <label class="input-button" for="fileinput">
+          Зам зааж өгөх
+        </label>
+        <input
+          type="submit"
+          id="submit"
+          class="input-button"
+          value="Upload хийх"
+          name="submit"
+        />
+      </form>
+    </div>
+    <div id="result"></div>
+    <script>
+      function filedrop() {
+        document.getElementById("fileinput").click();
+      }
+    </script>
+    <script src="jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.js"></script>
+    <script src="upload.js"></script>
+  </body>
+</html>

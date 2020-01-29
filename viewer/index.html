@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+        thead {
+            background-color: rgb(0, 87, 168);
+            color: white;
+            display: table-header-group;
+            vertical-align: middle;
+            border-color: inherit;
+        }
+
+        td {
+            padding: 5px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            margin: 10px;
+        }
+
+        #tbody>tr:nth-child(odd)>td {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body>
+        <script src="jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.js"></script>
+    <script>
+        let URL = window.location.href.replace("viewer", "uploader")
+        jQuery.fn.insertAt = function (index, element) {
+            var lastIndex = this.children().size();
+            if (index < 0) {
+                index = Math.max(0, lastIndex + 1 + index);
+            }
+            this.append(element);
+            if (index < lastIndex) {
+                this.children().eq(index).before(this.children().last());
+            }
+            return this;
+        }
+        function arrayToTable(tableData) {
+            var table = $('<table></table>');
+            let tbody = $('#tbody')
+            console.log(window.location.href)
+            let filtered = []
+            $(tableData).each(function (i, rowData) {
+                var row = $('<tr align="center" heigth="100"></tr>');
+                if (rowData.length > 1) {
+                    $(rowData).each(function (j, cellData) {
+                        if (cellData.length > 0) {
+                            if (j < 6 && j != 1 || j == 12) {
+                                if (j == 0) {
+                                    row.append($('<td><img height="70" style="vertical-align: middle;" src="' + window.location.href + '/symbols/' + cellData.replace(/\s/g, '').toLowerCase() + '.png">' + cellData + '</td>'))
+                                }
+                                else if (j == 12)
+                                    row.insertAt(1, $('<td align="center" width="300" style="vertical-align: middle;">' + cellData + '</td>'));
+                                else row.append($('<td align="center" width="300" style="vertical-align: middle;">' + cellData + '</td>'))
+                            }
+                        }
+                    });
+                    if (i > 1)
+                        tbody.append(row);
+                }
+            });
+
+        }
+        $.ajax({
+            type: "GET",
+            url: URL + "upload/csv/excel.csv",
+            success: function (data) {
+                $('body').append(arrayToTable(Papa.parse(data).data));
+            }
+        });
+    </script>
+
+    <body>
+        <table class="table table-bordered table-striped table-condensed flip-content"
+            style="margin-bottom: 5px; font-size: 50px; font-weight: bold; zoom: 98%;">
+            <thead bgcolor="#0057a8" style="color: white;">
+
+                <tr height="80" style="border: 1px solid white;">
+                    <th rowspan="2" width="300" style="vertical-align: middle;">
+                        <center class="union-header">Валют <br>/Currency/</center>
+                    </th>
+                    <th rowspan="2" width="360" style="vertical-align: middle;">
+                        <center class="union-header">Монгол Банк<br> /Bank of Mongolia/</center>
+                    </th>
+                    <th colspan="2" width="220" style="vertical-align: middle;">
+                        <center class="union-header">Бэлэн /Cash/</center>
+                    </th>
+                    <th colspan="2" width="220" style="vertical-align: middle;">
+                        <center class="union-header">Бэлэн бус /Non Cash/</center>
+                    </th>
+                </tr>
+                <tr>
+                    <th style="vertical-align: middle;">
+                        <center class="union-header">Авах<br> /Buy/</center>
+                    </th>
+                    <th style="vertical-align: middle;">
+                        <center class="union-header">Зарах<br> /Sell/</center>
+                    </th>
+                    <th style="vertical-align: middle;">
+                        <center class="union-header">Авах<br> /Buy/</center>
+                    </th>
+                    <th style="vertical-align: middle;">
+                        <center class="union-header">Зарах<br> /Sell/</center>
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+
+
+            </tbody>
+        </table>
+    </body>
+
+</html>
