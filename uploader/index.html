@@ -35,6 +35,72 @@
   </head>
 
   <body>
+
+      <table class="table table-bordered table-striped table-condensed flip-content"
+      style="margin-bottom: 5px; font-size: 15px; font-weight: bold;">
+      <thead bgcolor="#0057a8" style="color: white;">
+          <tr height="80" style="border: 1px solid white;">
+              <th rowspan="2" width="100" style="vertical-align: middle;">
+                  <center class="union-header">Валют <br>/Currency/</center>
+              </th>
+           
+              <th colspan="2" width="220" style="vertical-align: middle;">
+                  <center class="union-header">Бэлэн /Cash/</center>
+              </th>
+              <th colspan="2" width="220" style="vertical-align: middle;">
+                  <center class="union-header">Бэлэн бус /Non Cash/</center>
+              </th>
+              <th colspan="2" width="220" style="vertical-align: middle;">
+                  <center class="union-header">Голомт банк/GOLOMT BANK/</center>
+              </th>
+              <th colspan="2" width="220" style="vertical-align: middle;">
+                  <center class="union-header">Худалдаа хөгжил/TDBM/</center>
+              </th>
+              <th colspan="2" width="220" style="vertical-align: middle;">
+                  <center class="union-header">ХААН банк/KHAAN BANK/</center>
+              </th>
+              <th rowspan="2" width="100" style="vertical-align: middle;">
+                  <center class="union-header">Монгол Банк<br> /Bank of Mongolia/</center>
+              </th>
+          </tr>
+          <tr>
+              <th style="vertical-align: middle;">
+                  <center class="union-header">Авах<br> /Buy/</center>
+              </th>
+              <th style="vertical-align: middle;">
+                  <center class="union-header">Зарах<br> /Sell/</center>
+              </th>
+              <th style="vertical-align: middle;">
+                  <center class="union-header">Авах<br> /Buy/</center>
+              </th>
+              <th style="vertical-align: middle;">
+                  <center class="union-header">Зарах<br> /Sell/</center>
+              </th>
+              <th style="vertical-align: middle;">
+                  <center class="union-header">Авах<br> /Buy/</center>
+              </th>
+              <th style="vertical-align: middle;">
+                  <center class="union-header">Зарах<br> /Sell/</center>
+              </th>
+              <th style="vertical-align: middle;">
+                  <center class="union-header">Авах<br> /Buy/</center>
+              </th>
+              <th style="vertical-align: middle;">
+                  <center class="union-header">Зарах<br> /Sell/</center>
+              </th>
+              <th style="vertical-align: middle;">
+                  <center class="union-header">Авах<br> /Buy/</center>
+              </th>
+              <th style="vertical-align: middle;">
+                  <center class="union-header">Зарах<br> /Sell/</center>
+              </th>
+          </tr>
+      </thead>
+      <tbody id="tbody">
+
+
+      </tbody>
+  </table>
     <div id="drop-area">
       <form method="post" enctype="multipart/form-data">
         <p>Upload хийх файлаа зөөж оруулна уу</p>
@@ -60,5 +126,50 @@
     <script src="jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.js"></script>
     <script src="upload.js"></script>
+    <script>
+        let URL = window.location.href.replace("viewer", "uploader")
+        jQuery.fn.insertAt = function (index, element) {
+            var lastIndex = this.children().size();
+            if (index < 0) {
+                index = Math.max(0, lastIndex + 1 + index);
+            }
+            this.append(element);
+            if (index < lastIndex) {
+                this.children().eq(index).before(this.children().last());
+            }
+            return this;
+        }
+        function arrayToTable(tableData) {
+            var table = $('<table></table>');
+            let tbody = $('#tbody')
+            console.log(window.location.href)
+            let filtered = []
+            $(tableData).each(function (i, rowData) {
+                var row = $('<tr align="center" heigth="100"></tr>');
+                if (rowData.length > 1) {
+                    $(rowData).each(function (j, cellData) {
+                        if (cellData.length > 0) {
+                          if ( j != 1 ) {
+                                if (j == 0) {
+                                    row.append($('<td><img height="70" style="vertical-align: middle;" src="' + window.location.href + '/symbols/' + cellData.replace(/\s/g, '').toLowerCase() + '.png">' + cellData + '</td>'))
+                                }
+                                else row.append($('<td align="center" width="100" style="vertical-align: middle;">' + cellData + '</td>'))
+                            }
+                        }
+                    });
+                    if (i > 1)
+                        tbody.append(row);
+                }
+            });
+
+        }
+        $.ajax({
+            type: "GET",
+            url: URL + "upload/csv/excel.csv",
+            success: function (data) {
+                $('body').append(arrayToTable(Papa.parse(data).data));
+            }
+        });
+    </script>
   </body>
 </html>

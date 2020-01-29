@@ -30,7 +30,7 @@ form.addEventListener("submit", e => {
   }).then(response => {
     console.log(response);
     if (response.status == 200) {
-      alert("Амжилттай ");
+     window.location.reload(true);
     }
   });
 });
@@ -63,7 +63,6 @@ dropArea.addEventListener('drop', handleDrop, false)
 function handleDrop(e) {
   let dt = e.dataTransfer
   let files = dt.files[0]
-
   handleFile(files)
 }
 function handleFile(f) {

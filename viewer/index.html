@@ -57,8 +57,7 @@
                                 if (j == 0) {
                                     row.append($('<td><img height="70" style="vertical-align: middle;" src="' + window.location.href + '/symbols/' + cellData.replace(/\s/g, '').toLowerCase() + '.png">' + cellData + '</td>'))
                                 }
-                                else if (j == 12)
-                                    row.insertAt(1, $('<td align="center" width="300" style="vertical-align: middle;">' + cellData + '</td>'));
+    
                                 else row.append($('<td align="center" width="300" style="vertical-align: middle;">' + cellData + '</td>'))
                             }
                         }
