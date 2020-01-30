@@ -18,7 +18,6 @@ form.addEventListener("submit", e => {
 
   const files = document.querySelector("[type=file]").files;
   const formData = new FormData();
-
   for (let i = 0; i < files.length; i++) {
     let file = files[i];
 
@@ -28,7 +27,6 @@ form.addEventListener("submit", e => {
     method: "POST",
     body: formData
   }).then(response => {
-    console.log(response);
     if (response.status == 200) {
      window.location.reload(true);
     }
@@ -63,6 +61,7 @@ dropArea.addEventListener('drop', handleDrop, false)
 function handleDrop(e) {
   let dt = e.dataTransfer
   let files = dt.files[0]
+  document.querySelector("[type=file]").files=dt.files;
   handleFile(files)
 }
 function handleFile(f) {
